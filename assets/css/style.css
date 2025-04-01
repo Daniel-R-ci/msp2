@@ -13,12 +13,15 @@
   --viridian: #57886cff;
   --ultra-violet: #564d80ff;
   --lavender-blush: #f3e8eeff;
+
+  --persian-orange-transparent: rgba(222,145,81,75%);
 }
 
-/* Wildcard rule to override default style by browser*/
-* {
+/* Wildcard rule to override default style by browser */
+body {
   padding: 0;
   margin: 0;
+ 
 }
 
 
@@ -28,18 +31,16 @@
   width: 100%;
   background: url("../images/hero-image.jpg") no-repeat center center/cover;
   position: relative;
+
 }
 
-#page-title {
-
-  background-color: var(--persian-orange);
-}
-
-#page-title > h1{
-  padding-top: 4px;
+#hero h1{
   font-family: var(--headline-font);
   color: var(--ultra-violet);
   font-size: 3rem;
+  margin-top: 15%;
+  background-color: var(--persian-orange-transparent);
+  
 }
 
 
@@ -49,4 +50,16 @@
 /* div border, for layout testing purposes */
 .col-12 {
   /*border: 1px solid red;*/
+}
+
+/*** Media querys ***/
+
+/*When h1 over Hero image fits on one line */
+@media (min-width: 950px) {
+
+  /* Additional padding around h1 above Hero image */
+  #hero h1{
+      padding: 15px;
+  }
+  
 }
