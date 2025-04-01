@@ -1,0 +1,52 @@
+/*** CSS Globals ***/
+
+/* Imports from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Barrio&family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap');
+
+:root {
+  /* Google fonts */
+  --primary-font: "Zain", sans-serif;
+  --headline-font: "Barrio", sans-serif;
+  /* CSS HEX */
+  --bistre: #351e0dff;
+  --persian-orange: #de9151ff;
+  --viridian: #57886cff;
+  --ultra-violet: #564d80ff;
+  --lavender-blush: #f3e8eeff;
+}
+
+/* Wildcard rule to override default style by browser*/
+* {
+  padding: 0;
+  margin: 0;
+}
+
+
+/*** Hero image and h1#page-title ***/
+#hero {
+  height: 400px;
+  width: 100%;
+  background: url("/assets/images/hero-image.jpg") no-repeat center center/cover;
+  position: relative;
+}
+
+#page-title {
+
+  background-color: var(--persian-orange);
+}
+
+#page-title > h1{
+  padding-top: 4px;
+  font-family: var(--headline-font);
+  color: var(--ultra-violet);
+  font-size: 3rem;
+}
+
+
+
+/**** TESTING CSS BELOW, TO BE REMOVED ****/
+
+/* div border, for layout testing purposes */
+.col-12 {
+  /*border: 1px solid red;*/
+}
