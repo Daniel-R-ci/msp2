@@ -24,9 +24,13 @@ body {
  
 }
 
+/* Override bootstrap container padding to avoid white padding edges */
+.container-fluid{
+  padding: 0px;
+}
 
-/*** Hero image and h1#page-title ***/
-#hero {
+/*** Hero image ***/
+#hero{
   height: 400px;
   width: 100%;
   background: url("../images/hero-image.jpg") no-repeat center center/cover;
@@ -34,6 +38,7 @@ body {
 
 }
 
+/*** Headline over Hero image */
 #hero h1{
   font-family: var(--headline-font);
   color: var(--ultra-violet);
@@ -47,10 +52,10 @@ body {
 
 /**** TESTING CSS BELOW, TO BE REMOVED ****/
 
-/* div border, for layout testing purposes */
-.col-12 {
-  /*border: 1px solid red;*/
-}
+
+
+/******************************************/
+
 
 /*** Media querys ***/
 
