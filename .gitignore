@@ -1,0 +1,4 @@
+#Exclude node files used for JEST testing purposes
+node_modules/
+package-lock.json
+package.json
