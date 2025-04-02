@@ -1,0 +1,1 @@
+/* File containing all information about playgrounds */
