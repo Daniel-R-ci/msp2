@@ -63,7 +63,7 @@ describe("Playgrounds validation", () => {
           }
           test("numMovements (number of matched movement types) shold match movements array length", () =>{
             expect(numMovements).toEqual(playground.movements.length);
-          })
+          });
       });
     });
   }
