@@ -24,18 +24,18 @@ body {
  
 }
 
-/* Override bootstrap container padding to avoid white padding edges */
-.container-fluid{
-  padding: 0px;
-}
-
 /*** Hero image ***/
 #hero{
   height: 400px;
   width: 100%;
   background: url("../images/hero-image.jpg") no-repeat center center/cover;
   position: relative;
+  padding: 0px;
+}
 
+/* Override bootstrap container padding to avoid white padding edges */
+.hero{
+  padding: 0px;
 }
 
 /*** Headline over Hero image */
@@ -48,6 +48,11 @@ body {
   
 }
 
+/*** Form styling ***/
+
+.btn{
+  margin-top: 5px;
+}
 
 
 /**** TESTING CSS BELOW, TO BE REMOVED ****/
@@ -59,8 +64,21 @@ body {
 
 /*** Media querys ***/
 
-/*When h1 over Hero image fits on one line */
-@media (min-width: 950px) {
+/* Medium screens */
+@media screen and (min-width: 768px) {
+
+  /*body{
+    background: red;
+  }*/
+
+  /* Add padding to checkboxes */
+  .movement-check-box{
+      padding-bottom: 8px;
+  }
+  
+}
+/* Screens over 950 pixels, almost large */
+@media screen and (min-width: 950px) {
 
   /* Additional padding around h1 above Hero image */
   #hero h1{
@@ -68,3 +86,5 @@ body {
   }
   
 }
+
+
