@@ -36,4 +36,4 @@ const playgrounds = [
   },
 ];
 
-module.exports = playgrounds;
+module.exports = { playgrounds };

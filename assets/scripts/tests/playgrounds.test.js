@@ -1,6 +1,6 @@
 /* File containing tests for validating data in playgrounds.js */
 
-const playgrounds = require("../playgrounds");
+const {playgrounds} = require("../playgrounds.js");
 
 describe("Playgrounds validation", () => {
   describe("Playgrounds array exist and has values", () => {
@@ -52,8 +52,9 @@ describe("Playgrounds validation", () => {
         expect(playground.movements.length).toBeLessThan(4);
       });
       describe("Movements array should only contain accepted values", () =>{
-        var numMovements = 0;
-          for(let movement of playground.movements){
+        let numMovements = 0;
+        let movement;
+          for(movement of playground.movements){
             if(movement==="ground")
               numMovements++;
             if(movement==="feet")
