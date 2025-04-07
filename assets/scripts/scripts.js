@@ -58,6 +58,7 @@ function searchPlaygrounds() {
     $("#searchResults").html(resultHTML);
   }
   else { // Loop through list and create list elements
+    resultHTML='<hr>';
     for (let i = 0; i < playgrounds.length; i++) { //Index loop used instead of for of to make use of index number
       
       resultHTML += createSearchListElement(playgrounds[i]);
@@ -95,7 +96,7 @@ function createSearchListElement(playground) {
 
   if (playground.movements.includes("ground")) {
     if (document.getElementById("chkMovementGround").checked === true) {
-      resultHTML += `<mark>Ground workd</mark>`;
+      resultHTML += `<mark>Ground work</mark>`;
     }
     else {
       resultHTML += `Ground work`;
