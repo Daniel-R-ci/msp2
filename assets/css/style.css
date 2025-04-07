@@ -15,9 +15,10 @@
   --lavender-blush: #f3e8eeff;
 
   --persian-orange-transparent: rgba(222,145,81,75%);
+  --viridian-transparent: rgba(87,136, 108, 25%)
 }
 
-/* Wildcard rule to override default style by browser */
+/* Override default style by browser */
 body {
   padding: 0;
   margin: 0;
@@ -52,6 +53,11 @@ body {
 
 .btn{
   margin-top: 5px;
+}
+
+/*** Search result styling ***/
+mark{
+  background-color: var(--viridian-transparent);
 }
 
 

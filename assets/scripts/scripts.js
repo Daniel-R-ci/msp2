@@ -1,16 +1,18 @@
 
+let searchList = [];
 
 /** Functions to execute when document is fully loaded and DOM is in place */
 $(document).ready(function () {
 
   //HTML elements to be altered  
   {
-    $("#results").hide(); // Hide search results section, not to be shown before a search has been made
-    $("#details").hide(); // Hide playground details, not to be shown before a search hit has been clicked
+    $("#resultsSection").hide(); // Hide search results section, not to be shown before a search has been made
+    $("#detailsSection").hide(); // Hide playground details, not to be shown before a search hit has been clicked
   }
 
   //Fill selectCityArea selector with values
   {
+    // Add all areas in playgrounds to areas array, only one instance per area
     let areas = [];
     for (let playground of playgrounds) {
       if (!areas.includes(playground.area)) {
@@ -18,7 +20,10 @@ $(document).ready(function () {
       }
     }
     areas.sort();
-    for (let area of areas) { //Basic code for adding option to select from W3 Schools, modified
+
+    //Add all city areas stored in areas array to select element
+    //Basic code for adding option to select from W3 Schools, adapted to take multiple values from array
+    for (let area of areas) {
       let option = document.createElement("option");
       option.text = area;
       option.value = area;
@@ -31,7 +36,7 @@ $(document).ready(function () {
     $("#btnSearch").click(function () { //When search button is clicked
       searchPlaygrounds();
     });
-    $("#btnReset").click(function () {
+    $("#btnReset").click(function () { //When reset button is clicked
       resetSearch();
     })
   }
@@ -42,15 +47,85 @@ $(document).ready(function () {
  * Search through playgrounds array and create list of playgrounds matching search criteria
  */
 function searchPlaygrounds() {
-  $("#results").show();
-  $("#details").show();
+  $("#resultsSection").show(); //Show results section
+
+  searchList = []; //Reset search list
+  searchList = playgrounds; //Temporary assignment, should be replaced with search function
+
+  let resultHTML = "";
+  if (searchList.length === 0) { // No matches found
+    resultHTML = `<em>I'm sorry, no matching playgrounds were found! Please try to broaden the search.</em>`;
+  }
+  else { // Loop through list and create list elements
+    for (let playground of searchList) {
+      resultHTML += `<strong>${playground.name}</strong> ${playground.area}<br>`
+        + `Suitable movement excersice: `;
+      let previousMovement = false; //Used to get correct commas and capital letters
+
+      if (playground.movements.includes("ground")) {
+        if (document.getElementById("chkMovementGround").checked === true) {
+          resultHTML += `<mark>Ground workd</mark>`;
+        }
+        else {
+          resultHTML += `Ground work`;
+        }
+        previousMovement = true;
+      }
+
+      if (playground.movements.includes("feet")) {
+        if (previousMovement === true) {
+          if (document.getElementById("chkMovementFeet").checked === true) {
+            resultHTML += `, <mark>on your feet</mark>`;
+          }
+          else {
+            resultHTML += `, on your feet`;
+          }
+        }
+        else {
+          if (document.getElementById("chkMovementFeet").checked === true) {
+            resultHTML += `<mark>On your feet</mark>`;
+          }
+          else {
+            resultHTML += `On your feet`;
+          }
+          previousMovement = true;
+        }
+
+
+        if (playground.movements.includes("air")) {
+          if (previousMovement === true) {
+            if (document.getElementById("chkMovementAir").checked === true) {
+              resultHTML += `, <mark>in the air</mark>`;
+            }
+            else {
+              resultHTML += `, in the air`;
+            }
+
+          }
+          else {
+            resultHTML += `In the air`;
+          }
+        }
+        resultHTML += `<hr>`; //Add <hr> between search elements
+      } // end: for (let playground of searchList) {
+
+    }
+  }
+
+  $("#searchResults").html(resultHTML);
 }
+
 
 /**
  * Reset search form and hide result and details sections
  */
 function resetSearch() {
-  $("#results").hide(); // Hide search results section, not to be shown before a search has been made
-  $("#details").hide(); // Hide playground details, not to be shown before a search hit has been clicked
+  document.getElementById("selectCityArea").value = "any"; //Change city area selector to default,
+  let checkboxes = document.getElementsByClassName("form-check-input");
+  for (let checkbox of checkboxes) {
+    checkbox.checked = false; //Basic code for de-selecting checkboxes from W3 Schools, adapted to work within loop
+  }
+  $("#resultsSection").hide(); // Hide search results section, not to be shown before a search has been made
+  $("#detailsSection").hide(); // Hide playground details, not to be shown before a search hit has been clicked
 }
 
