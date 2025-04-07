@@ -55,66 +55,18 @@ function searchPlaygrounds() {
   let resultHTML = "";
   if (searchList.length === 0) { // No matches found
     resultHTML = `<em>I'm sorry, no matching playgrounds were found! Please try to broaden the search.</em>`;
+    $("#searchResults").html(resultHTML);
   }
   else { // Loop through list and create list elements
-    for (let playground of searchList) {
-      resultHTML += `<strong>${playground.name}</strong> ${playground.area}<br>`
-        + `Suitable movement excersice: `;
-      let previousMovement = false; //Used to get correct commas and capital letters
-
-      if (playground.movements.includes("ground")) {
-        if (document.getElementById("chkMovementGround").checked === true) {
-          resultHTML += `<mark>Ground workd</mark>`;
-        }
-        else {
-          resultHTML += `Ground work`;
-        }
-        previousMovement = true;
-      }
-
-      if (playground.movements.includes("feet")) {
-        if (previousMovement === true) {
-          if (document.getElementById("chkMovementFeet").checked === true) {
-            resultHTML += `, <mark>on your feet</mark>`;
-          }
-          else {
-            resultHTML += `, on your feet`;
-          }
-        }
-        else {
-          if (document.getElementById("chkMovementFeet").checked === true) {
-            resultHTML += `<mark>On your feet</mark>`;
-          }
-          else {
-            resultHTML += `On your feet`;
-          }
-          previousMovement = true;
-        }
-
-
-        if (playground.movements.includes("air")) {
-          if (previousMovement === true) {
-            if (document.getElementById("chkMovementAir").checked === true) {
-              resultHTML += `, <mark>in the air</mark>`;
-            }
-            else {
-              resultHTML += `, in the air`;
-            }
-
-          }
-          else {
-            resultHTML += `In the air`;
-          }
-        }
-        resultHTML += `<hr>`; //Add <hr> between search elements
-      } // end: for (let playground of searchList) {
+    for (let i = 0; i < playgrounds.length; i++) { //Index loop used instead of for of to make use of index number
+      
+      resultHTML += createSearchListElement(playgrounds[i]);
 
     }
+      $("#searchResults").html(resultHTML); 
   }
 
-  $("#searchResults").html(resultHTML);
 }
-
 
 /**
  * Reset search form and hide result and details sections
@@ -129,3 +81,64 @@ function resetSearch() {
   $("#detailsSection").hide(); // Hide playground details, not to be shown before a search hit has been clicked
 }
 
+/**
+ * Creates list element out specified playground
+ * Broken out of searchPlayground() simplify overview
+ * @param {*} playground 
+ * @returns resultHTML
+ */
+function createSearchListElement(playground) {
+  let resultHTML = "";
+  resultHTML += `<strong>${playground.name}</strong> ${playground.area}<br>`
+    + `Suitable movement excersice: `;
+  let previousMovement = false; //Used to get correct commas and capital letters
+
+  if (playground.movements.includes("ground")) {
+    if (document.getElementById("chkMovementGround").checked === true) {
+      resultHTML += `<mark>Ground workd</mark>`;
+    }
+    else {
+      resultHTML += `Ground work`;
+    }
+    previousMovement = true;
+  }
+
+  if (playground.movements.includes("feet")) {
+    if (previousMovement === true) {
+      if (document.getElementById("chkMovementFeet").checked === true) {
+        resultHTML += `, <mark>on your feet</mark>`;
+      }
+      else {
+        resultHTML += `, on your feet`;
+      }
+    }
+    else {
+      if (document.getElementById("chkMovementFeet").checked === true) {
+        resultHTML += `<mark>On your feet</mark>`;
+      }
+      else {
+        resultHTML += `On your feet`;
+      }
+      previousMovement = true;
+    }
+
+
+    if (playground.movements.includes("air")) {
+      if (previousMovement === true) {
+        if (document.getElementById("chkMovementAir").checked === true) {
+          resultHTML += `, <mark>in the air</mark>`;
+        }
+        else {
+          resultHTML += `, in the air`;
+        }
+
+      }
+      else {
+        resultHTML += `In the air`;
+      }
+    }
+    resultHTML += `<hr>`; //Add <hr> between search elements
+  }
+
+  return resultHTML;
+}
