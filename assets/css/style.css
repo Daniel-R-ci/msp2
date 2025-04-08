@@ -80,6 +80,10 @@ mark{
   background-color: var(--viridian-transparent);
 }
 
+.odd-row{
+  background-color: var(--lavender-blush);
+}
+
 
 /**** TESTING CSS BELOW, TO BE REMOVED ****/
 

@@ -84,18 +84,21 @@ function searchPlaygrounds() {
     }
   }
 
-  let resultHTML = "";
+
   if (searchList.length === 0) { // No matches found
-    resultHTML = `<em>I'm sorry, no matching playgrounds were found!</em><br>Please try to broaden the search.`;
+    let resultHTML = `<em>I'm sorry, no matching playgrounds were found!</em><br>Please try to broaden the search.`;
     $("#searchResults").html(resultHTML);
   }
   else { // Loop through list and create list elements
-
+    $("#searchResults").html(""); //Empty results div after previous searches
     for (let i = 0; i < searchList.length; i++) { //Index loop used instead of for of to make use of index number
-      resultHTML += createSearchListElement(searchList[i]);
+      let newDiv = createSearchListElement(searchList[i]);
+      if(i%2===0){
+        newDiv.classList.add("odd-row");
+      }
+      $("#searchResults").append(newDiv);
 
     }
-    $("#searchResults").html(resultHTML);
   }
 
 }
@@ -117,8 +120,65 @@ function resetSearch() {
  * Creates list element out specified playground
  * Broken out of searchPlayground() simplify overview
  * @param {*} playground 
- * @returns resultHTML
+ * @returns newDiv
  */
+function createSearchListElement(playground) {
+  let newDiv = document.createElement("div");
+  newDiv.innerHTML = `<strong>${playground.name}</strong> ${playground.area}<br>`
+    + `Suitable movement excersice: `;
+  let previousMovement = false; //Used to get correct commas and capital letters
+
+  if (playground.movements.includes("ground")) {
+    if (document.getElementById("chkMovementGround").checked === true) {
+      newDiv.innerHTML += `<mark>Ground work</mark>`;
+    }
+    else {
+      newDiv.innerHTML += `Ground work`;
+    }
+    previousMovement = true;
+  }
+
+  if (playground.movements.includes("feet")) {
+    if (previousMovement === true) {
+      if (document.getElementById("chkMovementFeet").checked === true) {
+        newDiv.innerHTML += `, <mark>on your feet</mark>`;
+      }
+      else {
+        newDiv.innerHTML += `, on your feet`;
+      }
+    }
+    else {
+      if (document.getElementById("chkMovementFeet").checked === true) {
+        newDiv.innerHTML += `<mark>On your feet</mark>`;
+      }
+      else {
+        newDiv.innerHTML += `On your feet`;
+      }
+      previousMovement = true;
+    }
+
+
+    if (playground.movements.includes("air")) {
+      if (previousMovement === true) {
+        if (document.getElementById("chkMovementAir").checked === true) {
+          newDiv.innerHTML += `, <mark>in the air</mark>`;
+        }
+        else {
+          newDiv.innerHTML += `, in the air`;
+        }
+
+      }
+      else {
+        newDiv.innerHTML += `In the air`;
+      }
+    }
+  }
+
+  return newDiv;
+}
+
+
+/* Copy of old verison of createSearchListElement
 function createSearchListElement(playground) {
   let resultHTML = "<hr>";
   resultHTML += `<strong>${playground.name}</strong> ${playground.area}<br>`
@@ -173,3 +233,4 @@ function createSearchListElement(playground) {
 
   return resultHTML;
 }
+*/
