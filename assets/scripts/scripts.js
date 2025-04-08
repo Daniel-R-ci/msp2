@@ -136,12 +136,48 @@ function resetSearch() {
  * @param {*} searchListItem as integer
  */
 function showDetails(searchListItem) {
+  // Hide search and results section
   $("#searchSection").hide();
   $("#resultsSection").hide();
 
+  // Get playground object
   let indexItem = parseInt(searchListItem);
   let playground = searchList[searchListItem];
+
+  // Create html
   $("#detailsHeadline").html(playground.name);
+  let htmlText = "";
+  if (playground.image !== "") {
+    htmlText += `<img src="assets/images/${playground.image}" alt="image of a playground" width="100%"><br>`
+  }
+  htmlText += `<p>${playground.adress} <em>- ${playground.area}</em></p><p>${playground.description}</p>`;
+
+  htmlText += `Suitable for the following activites: `;
+  let previousMovement = false;
+  if (playground.movements.includes("ground")) {
+    htmlText += `Ground work`;
+    previousMovement = true;
+  }
+
+  if (playground.movements.includes("feet")) {
+    if (previousMovement === true) {
+      htmlText += `, on your feet`;
+    } else {
+      htmlText += `On your feet`;
+      previousMovement = true;
+    }
+  }
+
+  if (playground.movements.includes("air")) {
+    if (previousMovement === true) {
+      htmlText += `, in the air`;
+    } else {
+      htmlText += `In the air`;
+    }
+  }
+  $("#playgroundDetails").html(htmlText);
+
+  // Show detailssection  
   $("#detailsSection").show();
 }
 

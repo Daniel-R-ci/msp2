@@ -22,7 +22,7 @@ const playgrounds = [
     "geoX": "",
     "geoY": "",
     "adress": "Hisingen street", //Required value
-    "image": "",
+    "image": "sample-playground-1.png",
   },
   {
     "name": "Test park 2", //Required value
@@ -32,7 +32,7 @@ const playgrounds = [
     "geoX": "",
     "geoY": "",
     "adress": "Ruddalen entrance", //Required value
-    "image": "",
+    "image": "sample-playground-2.png",
   },
   {
     "name": "Test park 3", //Required value
@@ -42,7 +42,7 @@ const playgrounds = [
     "geoX": "",
     "geoY": "",
     "adress": "Eriksberg Harbour", //Required value
-    "image": "",
+    "image": "sample-playground-3.png",
   },
 ];
 
