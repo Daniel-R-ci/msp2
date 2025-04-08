@@ -34,6 +34,16 @@ const playgrounds = [
     "adress": "Ruddalen entrance", //Required value
     "image": "",
   },
+  {
+    "name": "Test park 3", //Required value
+    "area": "Hisingen",
+    "movements": ["ground", "feet"], //Required array, must contain at least one item
+    "description": "An old but well maintained park. All gates face away from the harbour, to prevent kids escaping from falling into the water.",
+    "geoX": "",
+    "geoY": "",
+    "adress": "Eriksberg Harbour", //Required value
+    "image": "",
+  },
 ];
 
 module.exports = { playgrounds };

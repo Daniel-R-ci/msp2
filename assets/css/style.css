@@ -80,7 +80,7 @@ mark{
   background-color: var(--viridian-transparent);
 }
 
-.odd-row{
+.even-row{
   background-color: var(--lavender-blush);
 }
 
