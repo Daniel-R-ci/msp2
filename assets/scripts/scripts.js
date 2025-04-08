@@ -55,30 +55,39 @@ function searchPlaygrounds() {
   //searchList = playgrounds; //Temporary assignment, should be replaced with search function
   for (let playground of playgrounds) {
     let searchMatch = 0; //Starts with 0, counts every search hit
+    let clickedBoxes = 0; //Counts the number of boxes clicked
     if (document.getElementById("chkMovementGround").checked === true) {
+      clickedBoxes++;
       if (playground.movements.includes("ground")) {
-
         searchMatch++;
       }
     }
     if (document.getElementById("chkMovementFeet").checked === true) {
+      clickedBoxes++;
       if (playground.movements.includes("feet")) {
         searchMatch++;
       }
     }
     if (document.getElementById("chkMovementAir").checked === true) {
+      clickedBoxes++;
       if (playground.movements.includes("air")) {
         searchMatch++;
       }
     }
-    if (document.getElementById("selectCityArea").value != "any") {
-      //Reset searchMatch to 0 if city area doesn't match search criteria
-      if (document.getElementById("selectCityArea").value != playground.area) {
+    if (clickedBoxes === 0) { //If no boxes are clicked, use area as only criteria
+      if (document.getElementById("selectCityArea").value === "any") {
+        searchMatch++;
+      } else if (document.getElementById("selectCityArea").value === playground.area) {
+        searchMatch++;
+      } else {
         searchMatch = 0;
       }
-    }
-    else {
-      searchMatch++;
+    } else { //If one or more checkboxes are clicked, exclude playgrounds from not selected area
+      if (document.getElementById("selectCityArea").value != "any") {
+        if (document.getElementById("selectCityArea").value != playground.area) {
+          searchMatch = 0;
+        }
+      }
     }
 
     if (searchMatch > 0) {
@@ -107,6 +116,7 @@ function searchPlaygrounds() {
     });
   }
 }
+
 
 /**
  * Reset search form and hide result and details sections
