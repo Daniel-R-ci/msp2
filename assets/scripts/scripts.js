@@ -50,21 +50,52 @@ function searchPlaygrounds() {
   $("#resultsSection").show(); //Show results section
 
   searchList = []; //Reset search list
-  searchList = playgrounds; //Temporary assignment, should be replaced with search function
+  //searchList = playgrounds; //Temporary assignment, should be replaced with search function
+  for (let playground of playgrounds) {
+    let searchMatch = 0; //Starts with 0, counts every search hit
+    if (document.getElementById("chkMovementGround").checked === true) {
+      if (playground.movements.includes("ground")) {
+
+        searchMatch++;
+      }
+    }
+    if (document.getElementById("chkMovementFeet").checked === true) {
+      if (playground.movements.includes("feet")) {
+        searchMatch++;
+      }
+    }
+    if (document.getElementById("chkMovementAir").checked === true) {
+      if (playground.movements.includes("air")) {
+        searchMatch++;
+      }
+    }
+    if (document.getElementById("selectCityArea").value != "any") {
+      //Reset searchMatch to 0 if city area doesn't match search criteria
+      if (document.getElementById("selectCityArea").value != playground.area) {
+        searchMatch = 0;
+      }
+    }
+    else {
+      searchMatch++;
+    }
+
+    if (searchMatch > 0) {
+      searchList.push(playground);
+    }
+  }
 
   let resultHTML = "";
   if (searchList.length === 0) { // No matches found
-    resultHTML = `<em>I'm sorry, no matching playgrounds were found! Please try to broaden the search.</em>`;
+    resultHTML = `<em>I'm sorry, no matching playgrounds were found!</em><br>Please try to broaden the search.`;
     $("#searchResults").html(resultHTML);
   }
   else { // Loop through list and create list elements
-    resultHTML='<hr>';
-    for (let i = 0; i < playgrounds.length; i++) { //Index loop used instead of for of to make use of index number
-      
-      resultHTML += createSearchListElement(playgrounds[i]);
+
+    for (let i = 0; i < searchList.length; i++) { //Index loop used instead of for of to make use of index number
+      resultHTML += createSearchListElement(searchList[i]);
 
     }
-      $("#searchResults").html(resultHTML); 
+    $("#searchResults").html(resultHTML);
   }
 
 }
@@ -89,7 +120,7 @@ function resetSearch() {
  * @returns resultHTML
  */
 function createSearchListElement(playground) {
-  let resultHTML = "";
+  let resultHTML = "<hr>";
   resultHTML += `<strong>${playground.name}</strong> ${playground.area}<br>`
     + `Suitable movement excersice: `;
   let previousMovement = false; //Used to get correct commas and capital letters
@@ -138,7 +169,6 @@ function createSearchListElement(playground) {
         resultHTML += `In the air`;
       }
     }
-    resultHTML += `<hr>`; //Add <hr> between search elements
   }
 
   return resultHTML;
