@@ -15,7 +15,7 @@
   --lavender-blush: #f3e8eeff;
 
   --persian-orange-transparent: rgba(222,145,81,75%);
-  --viridian-transparent: rgba(87,136, 108, 25%)
+  --viridian-transparent: rgba(87,136, 108, 75%)
 }
 
 /* Override default style by browser */
@@ -86,7 +86,6 @@ mark{
 
 
 /**** TESTING CSS BELOW, TO BE REMOVED ****/
-
 
 
 /******************************************/
