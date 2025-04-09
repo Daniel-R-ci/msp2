@@ -1,8 +1,19 @@
-
-let searchList = [];
+/*** GlOBAL VARIABLES ***/
+// playgrounds array also used, initialized in playgrounds.js
+let searchList = []; //Contains a list of playgrounds matching the latest search
+let ljMap = null; //Contains the LeafJet Map
+var ljMarker = null; //Contains the LeafJet Marker
 
 /** Functions to execute when document is fully loaded and DOM is in place */
 $(document).ready(function () {
+
+
+  //Initialize map, code from LeafJets.com
+  ljMap = L.map("map").setView([0, 0], 14);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(ljMap);
 
   //HTML elements to be altered  
   {
@@ -30,6 +41,8 @@ $(document).ready(function () {
       document.getElementById("selectCityArea").add(option);
     }
   }
+
+
 
   //Create event handlers for functions to be called
   {
@@ -117,7 +130,6 @@ function searchPlaygrounds() {
   }
 }
 
-
 /**
  * Reset search form and hide result and details sections
  */
@@ -148,7 +160,7 @@ function showDetails(searchListItem) {
   $("#detailsHeadline").html(playground.name);
   let htmlText = "";
   if (playground.image !== "") {
-    htmlText += `<img src="assets/images/${playground.image}" alt="image of a playground" width="100%"><br>`
+    htmlText += `<img src="assets/images/${playground.image}" alt="image of a playground" width="100%"><br>`;
   }
   htmlText += `<p>${playground.adress} <em>- ${playground.area}</em></p><p>${playground.description}</p>`;
 
@@ -177,6 +189,23 @@ function showDetails(searchListItem) {
   }
   $("#playgroundDetails").html(htmlText);
 
+  if (playground.geoPosition !== 0) { //If positions exists
+    //Set LeaftJet map to position
+    ljMap.setView([playground.geoPosition[0], playground.geoPosition[1]]);
+
+    //If LeafJet Marker already exists, remove it from map
+    if (ljMarker !== null) {
+      ljMap.removeLayer(ljMarker);
+    }
+    //Add new marker to map
+    ljMarker = new L.Marker([playground.geoPosition[0], playground.geoPosition[1]]);
+    ljMap.addLayer(ljMarker);
+    //Credit: Code for storing markers in layers and global variables found on Stackoverflow.com, modified for desired functionality
+
+    $("#map").show();
+  } else { //Hide map div if no coordinates are entered
+    $("#map").hide();
+  }
   // Show detailssection  
   $("#detailsSection").show();
 }

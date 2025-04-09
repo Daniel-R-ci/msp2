@@ -36,7 +36,7 @@ const playgrounds = [
     "area": "Hisingen",
     "movements": ["ground", "feet"], //Required array, must contain at least one item
     "description": "An old but well maintained park. All gates face away from the harbour, to prevent kids escaping from falling into the water.",
-    "geoPosition": 0,
+    "geoPosition": [57.697076, 11.90859],
     "adress": "Eriksberg Harbour", //Required value
     "image": "sample-playground-3.png",
   },

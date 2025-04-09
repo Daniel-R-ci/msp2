@@ -84,6 +84,11 @@ mark{
   background-color: var(--lavender-blush);
 }
 
+/*** Styling of map div ***/
+#map { 
+  height: 360px; 
+}
+
 
 /**** TESTING CSS BELOW, TO BE REMOVED ****/
 
