@@ -9,9 +9,9 @@ describe("Playgrounds validation", () => {
     });
   });
   for (let playground of playgrounds) {
-    describe("Every object in playgrounds array should have eight keys, and the correct keys", () => {
-      test("Make sure playground have eight keys", () => {
-        expect(Object.keys(playground).length).toEqual(8);
+    describe("Every object in playgrounds array should have seven keys, and the correct keys", () => {
+      test("Make sure playground have seven keys", () => {
+        expect(Object.keys(playground).length).toEqual(7);
       });
       test("Current playground has name key", () => {
         expect(playground.name).toBeDefined();
@@ -25,14 +25,8 @@ describe("Playgrounds validation", () => {
       test("Current playground has description key", () => {
         expect(playground.description).toBeDefined();
       });
-      test("Current playground has geoX key", () => {
-        expect(playground.geoX).toBeDefined();
-      });
-      test("Current playground has geoY key", () => {
-        expect(playground.geoY).toBeDefined();
-      });
-      test("Current playground has geoY key", () => {
-        expect(playground.geoY).toBeDefined();
+      test("Current playground has geoPosition key", () => {
+        expect(playground.geoPosition).toBeDefined();
       });
       test("Current playground has adress key", () => {
         expect(playground.adress).toBeDefined();
