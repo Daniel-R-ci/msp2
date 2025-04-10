@@ -2,9 +2,10 @@
 // playgrounds array also used, initialized in playgrounds.js
 let searchList = []; //Contains a list of playgrounds matching the latest search
 let ljMap = null; //Contains the LeafJet Map
-var ljMarker = null; //Contains the LeafJet Marker
-var x = window.matchMedia("(max-width: 767px)"); // Create a MediaQueryList object to work on smaller than medium screens, code from W3Schools
-
+let ljMarker = null; //Contains the LeafJet Marker
+const langSwedish = 0;
+const langEnglish = 1;
+let choosenLanguage = langSwedish;
 
 /** Functions to execute when document is fully loaded and DOM is in place */
 $(document).ready(function () {
@@ -22,31 +23,8 @@ $(document).ready(function () {
     $("#detailsSection").hide(); // Hide playground details, not to be shown before a search hit has been clicked
   }
 
-  //Fill selectCityArea selector with values
-  {
-    // Add all areas in playgrounds to areas array, only one instance per area
-    let areas = [];
-    for (let playground of playgrounds) {
-      if (!areas.includes(playground.area)) {
-        areas.push(playground.area);
-      }
-    }
-    areas.sort();
-
-    //Add all city areas stored in areas array to select element
-    //Basic code for adding option to select from W3 Schools, adapted to take multiple values from array
-    let option=document.createElement("option");
-    option.text
-    option.value="any";
-    option.text="Select area of city: Any";
-    document.getElementById("selectCityArea").add(option);
-    for (let area of areas) {
-      option = document.createElement("option");
-      option.text = area;
-      option.value = area;
-      document.getElementById("selectCityArea").add(option);
-    }
-  }
+  //Call a language change (default language Swedish) to force a translation of all needed fixed forms
+  changeLanguage(langSwedish);
 
   //Create event handlers for functions to be called
   {
@@ -59,8 +37,76 @@ $(document).ready(function () {
     $("#btnCloseDetails").click(function () { //When close button in detailsSection is clicked
       hideDetails();
     });
+    $("#languageSwedish").click(function () {
+      changeLanguage(langSwedish);
+    });
+    $("#languageEnglish").click(function () {
+      changeLanguage(langEnglish);
+    });
+
   }
 }); //end $(document).ready(function ()
+
+/**
+ * Changes the language of all fixed html elements to the newly selected language
+ * @param {*} newLanguage, supports langSwedish and langEnglish;
+ */
+function changeLanguage(newLanguage) {
+  choosenLanguage = parseInt(newLanguage);
+
+  switch (choosenLanguage) {
+    case langSwedish:
+      $("#h1Title").html("Göteborgs Lekplatser för Småbarn");
+      $("#h2Search").html("Sök efter lekplatser");
+      $("#btnSearch").html("Sök");
+      $("#h2Results").html("Resultat");
+      $("#btnCloseDetails").html("Tillbaka till sökresultatet");
+      break;
+    case langEnglish:
+      $("#h1Title").html("Gothenburg Playgrounds for Toddlers");
+      $("#h2Search").html("Search for playgrounds");
+      $("#btnSearch").html("Search");
+      $("#h2Results").html("Search results");
+      $("#btnCloseDetails").html("Back to search result");
+      break;
+  }
+
+  //Update text for checkbox labels
+  lblMovementGround.innerHTML = movementInformation[choosenLanguage].ground[0] + " " + movementInformation[choosenLanguage].ground[1];
+  lblMovementFeet.innerHTML = movementInformation[choosenLanguage].feet[0] + " " + movementInformation[choosenLanguage].feet[1];
+  lblMovementAir.innerHTML = movementInformation[choosenLanguage].air[0] + " " + movementInformation[choosenLanguage].air[1];
+
+  //Fill selectCityArea selector with values
+  {
+    // Add all areas in playgrounds to areas array, only one instance per area
+    let areas = [];
+    for (let playground of playgrounds) {
+      if (!areas.includes(playground.area[choosenLanguage])) {
+        areas.push(playground.area[choosenLanguage]);
+      }
+    }
+    areas.sort();
+
+    //Add all city areas stored in areas array to select element
+    //Basic code for adding option to select from W3 Schools, adapted to take multiple values from array
+    $("#selectCityArea > option").remove(); //Remove all current options from selectCityArea, code adapted from solutions found at Stackoverflow.com
+    let option = document.createElement("option");
+    option.value = "any";
+    if (choosenLanguage === langSwedish) {
+      option.text = "Välj del av staden: Alla";
+    } else if (choosenLanguage === langEnglish) {
+      option.text = "Select area of city: Any";
+    }
+    document.getElementById("selectCityArea").add(option);
+    for (let area of areas) {
+      option = document.createElement("option");
+      option.text = area;
+      option.value = area;
+      document.getElementById("selectCityArea").add(option);
+    }
+  }
+  resetSearch(); //Calls a reset of search function and results
+}
 
 /**
  * Search through playgrounds array and create list of playgrounds matching search criteria
@@ -94,7 +140,7 @@ function searchPlaygrounds() {
     if (clickedBoxes === 0) { //If no boxes are clicked, use area as only criteria
       if (document.getElementById("selectCityArea").value === "any") {
         searchMatch++;
-      } else if (document.getElementById("selectCityArea").value === playground.area) {
+      } else if (document.getElementById("selectCityArea").value === playground.area[choosenLanguage]) {
         searchMatch++;
       } else {
         searchMatch = 0;
@@ -112,7 +158,7 @@ function searchPlaygrounds() {
     }
   }
 
-
+  //Show search results
   if (searchList.length === 0) { // No matches found
     let resultHTML = `<em>I'm sorry, no matching playgrounds were found!</em><br>Please try to broaden the search.`;
     $("#searchResults").html(resultHTML);
@@ -131,11 +177,13 @@ function searchPlaygrounds() {
     $("#searchResults").children().click(function (e) {
       showDetails(this.getAttribute("data-searchListItem"));
     });
-    
-    if (x.matches) { // If media query matches (code from W3Schools)
-      window.scrollTo(0,450); //Scroll the window down sufficiently to see search results
-    } 
-    
+
+    //Scroll the window to see search results on smaller screens. Code from W3Schools adapted to current needs
+    var x = window.matchMedia("(max-width: 767px)"); // Create a MediaQueryList object to work on smaller than medium screens,
+    if (x.matches) { // If media query matches
+      window.scrollTo(0, 450); //Scroll the window to a position to sufficiently see search results
+    }
+
   }
 }
 
@@ -166,36 +214,43 @@ function showDetails(searchListItem) {
   let playground = searchList[searchListItem];
 
   // Create html
-  $("#detailsHeadline").html(playground.name);
+  $("#h2Details").html(playground.name);
   let htmlText = "";
   if (playground.image !== "") {
     htmlText += `<img src="assets/images/${playground.image}" alt="image of a playground" width="100%"><br>`;
   }
-  htmlText += `<p>${playground.adress} <em>- ${playground.area}</em></p><p>${playground.description}</p>`;
+  htmlText += `<p>${playground.adress} <em>- ${playground.area[choosenLanguage]}</em></p><p>${playground.description[choosenLanguage]}</p>`;
 
-  htmlText += `Suitable for the following activites: `;
+  if(choosenLanguage === langSwedish){
+    htmlText += `Lämpliga rörelseövningar: `; 
+  }else {
+    htmlText+= `Suitable movement excersice: `;
+  }
+
   let previousMovement = false;
   if (playground.movements.includes("ground")) {
-    htmlText += `Ground work`;
+    htmlText += `${movementInformation[choosenLanguage].ground[0]} ${movementInformation[choosenLanguage].ground[1]}`;
     previousMovement = true;
   }
 
   if (playground.movements.includes("feet")) {
     if (previousMovement === true) {
-      htmlText += `, on your feet`;
+      htmlText += `${movementInformation[choosenLanguage].feet[0].toLowerCase()} ${movementInformation[choosenLanguage].feet[1]}`;
     } else {
-      htmlText += `On your feet`;
+      htmlText += `${movementInformation[choosenLanguage].feet[0]} ${movementInformation[choosenLanguage].feet[1]}`;
       previousMovement = true;
     }
   }
 
   if (playground.movements.includes("air")) {
     if (previousMovement === true) {
-      htmlText += `, in the air`;
+      htmlText += `${movementInformation[choosenLanguage].air[0].toLowerCase()} ${movementInformation[choosenLanguage].air[1]}`;
     } else {
-      htmlText += `In the air`;
+      htmlText += `${movementInformation[choosenLanguage].air[0]} ${movementInformation[choosenLanguage].air[1]}`;
+      previousMovement = true;
     }
   }
+  
   $("#playgroundDetails").html(htmlText);
 
   if (playground.geoPosition !== 0) { //If positions exists
@@ -237,43 +292,54 @@ function hideDetails() {
  */
 function createSearchListElement(playground) {
   let newDiv = document.createElement("div");
-  newDiv.innerHTML = `<strong>${playground.name}</strong> ${playground.area}<br>Suitable movement excersice: `;
+  newDiv.innerHTML = `<strong>${playground.name}</strong> ${playground.area[choosenLanguage]}<br>`;
+  if(choosenLanguage === langSwedish){
+    newDiv.innerHTML += `Lämpliga rörelseövningar: ` 
+  }else{
+    newDiv.innerHTML+= `Suitable movement excersice: `;
+  }
+
   let previousMovement = false; //Used to get correct commas and capital letters
 
   if (playground.movements.includes("ground")) {
     if (document.getElementById("chkMovementGround").checked === true) {
-      newDiv.innerHTML += `<mark>Ground work</mark>`;
+      newDiv.innerHTML += `<mark>${movementInformation[choosenLanguage].ground[0]}</mark>`;
     } else {
-      newDiv.innerHTML += `Ground work`;
+      newDiv.innerHTML += movementInformation[choosenLanguage].ground[0];
     }
     previousMovement = true;
   }
 
   if (playground.movements.includes("feet")) {
-    if (previousMovement === true) {
-      if (document.getElementById("chkMovementFeet").checked === true) {
-        newDiv.innerHTML += `, <mark>on your feet</mark>`;
+    if (document.getElementById("chkMovementFeet").checked === true) {
+      if (previousMovement === false) {
+        newDiv.innerHTML += `<mark>${movementInformation[choosenLanguage].feet[0]}</mark>`;
+        previousMovement = true;
       } else {
-        newDiv.innerHTML += `, on your feet`;
+        newDiv.innerHTML += `, <mark>${movementInformation[choosenLanguage].feet[0].toLowerCase()}</mark>`;
       }
     } else {
-      if (document.getElementById("chkMovementFeet").checked === true) {
-        newDiv.innerHTML += `<mark>On your feet</mark>`;
+      if (previousMovement === false) {
+        newDiv.innerHTML += movementInformation[choosenLanguage].feet[0];
+        previousMovement = true;
       } else {
-        newDiv.innerHTML += `On your feet`;
+        newDiv.innerHTML += `, ${movementInformation[choosenLanguage].feet[0].toLowerCase()}`;
       }
-      previousMovement = true;
     }
+  }
 
-    if (playground.movements.includes("air")) {
-      if (previousMovement === true) {
-        if (document.getElementById("chkMovementAir").checked === true) {
-          newDiv.innerHTML += `, <mark>in the air</mark>`;
-        } else {
-          newDiv.innerHTML += `, in the air`;
-        }
+  if (playground.movements.includes("air")) {
+    if (document.getElementById("chkMovementAir").checked === true) {
+      if (previousMovement === false) {
+        newDiv.innerHTML += `<mark>${movementInformation[choosenLanguage].air[0]}</mark>`;
       } else {
-        newDiv.innerHTML += `In the air`;
+        newDiv.innerHTML += `, <mark>${movementInformation[choosenLanguage].air[0].toLowerCase()}</mark>`;
+      }
+    } else {
+      if (previousMovement === false) {
+        newDiv.innerHTML += movementInformation[choosenLanguage].air[0];
+      } else {
+        newDiv.innerHTML += `, ${movementInformation[choosenLanguage].air[0].toLowerCase()}`;
       }
     }
   }

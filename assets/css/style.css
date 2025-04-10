@@ -58,6 +58,11 @@ section{
   
 }
 
+.language-flag{
+  width: 2rem;
+  height: 1.33rem;
+}
+
 /*** Form styling ***/
 
 .btn{

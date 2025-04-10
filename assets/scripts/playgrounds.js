@@ -1,5 +1,18 @@
 /* File containing all information about playgrounds */
 
+//Array for translation of movement groups
+const movementInformation = [
+{ //Text in Swedish
+  "ground": ["På marken" , "(rulla, åla mm.)"],
+  "feet":  ["På fötterna" , "(balans, kasta/fånga mm.)"],
+  "air":  ["I luften" , "(gunga, hänga, klättra)"],
+},
+{ //Text i English
+  "ground": ["Ground work" , "(rolling, crawl, etc)"],
+  "feet":  ["On your feet" , "(balance, throw/catch etc)"],
+  "air":  ["In the air" , "(swing, hang and climb)"],
+}];
+
 /* Copy the following lines into the array playgrounds when adding new playground
 {
   "name": "", //Required value
@@ -8,7 +21,7 @@
   "description": ["", ""] //Description, first in Swedish and then English, not required
   "geoPosition": 0, //Required, should be 0 for not used, otherwise in the form [north/south, east/west], example: [57.697964, 11.90179]
   "adress": "", //Required value
-  "image": "",
+  "image": "", // Used to store name/url to picture of playground
 },
   */
 

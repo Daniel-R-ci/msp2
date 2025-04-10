@@ -22,19 +22,25 @@
     <div class="container-fluid hero">
       <div id="hero" class="col-12">
         <div class="d-flex justify-content-center text-center">
-          <h1>Gothenburg Playgrounds for Toddlers</h1>
+          <h1 id="h1Title">Gothenburg Playgrounds for Toddlers</h1>
         </div>
       </div>
     </div>
   </header>
   <main>
     <div class="container-fluid">
-
+      <div class="row justify-content-end">
+        <div class="col-4 text-end">
+          <!-- Flag icons from njpmj.com https://www.npmjs.com/package/country-flag-icons -->
+          <img id="languageSwedish" class="language-flag" alt="Swedish" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/SE.svg">
+          <img id="languageEnglish" class="language-flag" alt="English" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/GB.svg">
+        </div>
+      </div>
       <section id="searchSection">
         <form>
           <div class="row justify-content-center">
             <div class="col-12 text-center"> <!-- Search hedline -->
-              <h2>Search for playgrounds</h2>
+              <h2 id="h2Search">Search for playgrounds</h2>
             </div>
             <div class="col-12 col-md-5 col-lg-3"> <!-- Movements checkboxes-->
               <div class="form-check">
@@ -74,7 +80,7 @@
       <section id="resultsSection">
         <div class="row justify-content-center">
           <div class="col-12 text-center">
-            <h2>Search results</h2>
+            <h2 id="h2Results">Search results</h2>
           </div>
           <div id="searchResults" class="col-12 col-md-10 col-lg-6">
           </div>
@@ -84,7 +90,7 @@
       <section id="detailsSection">
         <div class="row justify-content-center">
           <div class="col-12 text-center">
-            <h2 id="detailsHeadline">Playground details</h2>
+            <h2 id="h2Details">Playground details</h2>
           </div>
           <div id="playgroundDetails" class="col-12 col-md-10 col-lg-6">
           </div>
