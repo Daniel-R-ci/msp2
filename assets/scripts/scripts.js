@@ -3,10 +3,11 @@
 let searchList = []; //Contains a list of playgrounds matching the latest search
 let ljMap = null; //Contains the LeafJet Map
 var ljMarker = null; //Contains the LeafJet Marker
+var x = window.matchMedia("(max-width: 767px)"); // Create a MediaQueryList object to work on smaller than medium screens, code from W3Schools
+
 
 /** Functions to execute when document is fully loaded and DOM is in place */
 $(document).ready(function () {
-
 
   //Initialize map, code from LeafJets.com
   ljMap = L.map("map").setView([0, 0], 14);
@@ -34,15 +35,18 @@ $(document).ready(function () {
 
     //Add all city areas stored in areas array to select element
     //Basic code for adding option to select from W3 Schools, adapted to take multiple values from array
+    let option=document.createElement("option");
+    option.text
+    option.value="any";
+    option.text="Select area of city: Any";
+    document.getElementById("selectCityArea").add(option);
     for (let area of areas) {
-      let option = document.createElement("option");
+      option = document.createElement("option");
       option.text = area;
       option.value = area;
       document.getElementById("selectCityArea").add(option);
     }
   }
-
-
 
   //Create event handlers for functions to be called
   {
@@ -127,6 +131,11 @@ function searchPlaygrounds() {
     $("#searchResults").children().click(function (e) {
       showDetails(this.getAttribute("data-searchListItem"));
     });
+    
+    if (x.matches) { // If media query matches (code from W3Schools)
+      window.scrollTo(0,450); //Scroll the window down sufficiently to see search results
+    } 
+    
   }
 }
 
