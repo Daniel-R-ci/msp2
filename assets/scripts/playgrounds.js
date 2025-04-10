@@ -55,4 +55,8 @@ const playgrounds = [
   },
 ];
 
-module.exports = { playgrounds };
+// If statement to avoid running the module.exports method 
+// Export needed for testing with JEST but causes error when run on web server
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = { playgrounds };
+}
