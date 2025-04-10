@@ -29,6 +29,7 @@
   </header>
   <main>
     <div class="container-fluid">
+
       <section id="searchSection">
         <form>
           <div class="row justify-content-center">
@@ -39,19 +40,19 @@
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="chkMovementGround"
                   name="chkMovementGround">
-                <label class="form-check-label movement-check-box" for="chkMovementGround">
+                <label class="form-check-label movement-check-box" for="chkMovementGround" id="lblMovementGround">
                   Ground work(rolling, crawl, etc)
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="chkMovementFeet" name="chkMovementFeet">
-                <label class="form-check-label movement-check-box" for="chkMovementFeet">
+                <label class="form-check-label movement-check-box" for="chkMovementFeet" id="lblMovementFeet">
                   On your feet (balance, throw/catch etc)
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="chkMovementAir" name="chkMovementAir">
-                <label class="form-check-label movement-check-box" for="chkMovementAir">
+                <label class="form-check-label movement-check-box" for="chkMovementAir" id="lblMovementAir">
                   In the air (swing, hang and climb)
                 </label>
               </div>
@@ -60,7 +61,6 @@
               <div class="form-group">
                 <!-- <label for="selectCityArea">Select area of city</label> -->
                 <select class="form-control" id="selectCityArea" name="selectCityArea">
-                  <option value="any">Select area of city: Any</option>
                 </select>
               </div>
               <button type="button" id="btnSearch" class="btn btn-primary">Search</button>
@@ -79,8 +79,8 @@
           <div id="searchResults" class="col-12 col-md-10 col-lg-6">
           </div>
         </div>
-
       </section>
+
       <section id="detailsSection">
         <div class="row justify-content-center">
           <div class="col-12 text-center">
