@@ -36,8 +36,17 @@ describe("Playgrounds validation", () => {
       test("Name should have value", () => {
         expect(playground.name.length).toBeGreaterThan(0);
       });
-      test("Area should have value", () => {
-        expect(playground.area.length).toBeGreaterThan(0);
+      test("Area should have contain two items in array (Swedish and English)", () => {
+        expect(playground.area.length).toEqual(2);
+      });
+      test("Area in Swedish should contain a value", () =>{
+        expect(playground.area[0].length).toBeGreaterThan(0);
+      });
+      test("Area in English should contain a value", () =>{
+        expect(playground.area[1].length).toBeGreaterThan(0);
+      });
+      test("Description array should have a length of 2", () =>{
+        expect(playground.description.length).toEqual(2);
       });
       test("Movements should have at least one value", () => {
         expect(playground.movements.length).toBeGreaterThan(0);
