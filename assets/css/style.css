@@ -38,7 +38,7 @@ section{
 
 /*** Hero image ***/
 #hero{
-  height: 400px;
+  height: 200px;
   width: 100%;
   background: url("../images/hero-image.jpg") no-repeat center center/cover;
   position: relative;
@@ -52,10 +52,15 @@ section{
 
 /*** Headline over Hero image */
 #hero h1{
-  font-size: 3rem;
+  font-size: 1.8rem;
   margin-top: 15%;
   background-color: var(--persian-orange-transparent);
-  
+  /* Settings below to verticaly center h1, code from W3Schools */
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .language-flag{
@@ -106,22 +111,19 @@ mark{
 /* Medium screens */
 @media screen and (min-width: 768px) {
 
-  /*body{
-    background: red;
-  }*/
+  /* Increase size of hero image */
+  #hero{
+    height: 400px;
+  }
+
+  /* Increase font size on h1 over hero image */
+  #hero h1{
+    font-size: 3rem; 
+  }
 
   /* Add padding to checkboxes */
   .movement-check-box{
       padding-bottom: 8px;
-  }
-  
-}
-/* Screens over 950 pixels, almost large */
-@media screen and (min-width: 950px) {
-
-  /* Additional padding around h1 above Hero image */
-  #hero h1{
-      padding: 15px;
   }
   
 }

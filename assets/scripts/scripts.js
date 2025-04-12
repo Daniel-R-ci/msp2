@@ -56,14 +56,14 @@ function changeLanguage(newLanguage) {
 
   switch (choosenLanguage) {
     case langSwedish:
-      $("#h1Title").html("Göteborgs Lekplatser för Småbarn");
+      $("#h1Title").html("Göteborgs Lekplatser<br>för Småbarn");
       $("#h2Search").html("Sök efter lekplatser");
       $("#btnSearch").html("Sök");
       $("#h2Results").html("Resultat");
       $("#btnCloseDetails").html("Tillbaka till sökresultatet");
       break;
     case langEnglish:
-      $("#h1Title").html("Gothenburg Playgrounds for Toddlers");
+      $("#h1Title").html("Gothenburg Playgrounds<br>for Toddlers");
       $("#h2Search").html("Search for playgrounds");
       $("#btnSearch").html("Search");
       $("#h2Results").html("Search results");
