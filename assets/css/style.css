@@ -18,7 +18,7 @@
   --viridian-transparent: rgba(87,136, 108, 75%)
 }
 
-/* Override default style by browser */
+/* General html markups */
 body {
   padding: 0;
   margin: 0;
@@ -34,6 +34,14 @@ h1, h2{
 
 section{
   margin-top: 1rem;
+}
+
+p{
+  line-height: 1.1;
+}
+
+.fa-solid{
+  color: var(--ultra-violet);
 }
 
 /*** Hero image ***/

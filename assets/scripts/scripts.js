@@ -21,12 +21,13 @@ $(document).ready(function () {
   {
     $("#resultsSection").hide(); // Hide search results section, not to be shown before a search has been made
     $("#detailsSection").hide(); // Hide playground details, not to be shown before a search hit has been clicked
+    $("#movementsInfoSection").hide(); //Hide movements info, not to be shown before a question mark has been clicked
   }
 
   //Call a language change (default language Swedish) to force a translation of all needed fixed forms
   changeLanguage(langSwedish);
 
-  //Create event handlers for functions to be called
+  //Create event handlers for functions to be called, if code is more than three lines it has been boken out into separate functions
   {
     $("#btnSearch").click(function () { //When search button in search form is clicked
       searchPlaygrounds();
@@ -37,15 +38,98 @@ $(document).ready(function () {
     $("#btnCloseDetails").click(function () { //When close button in detailsSection is clicked
       hideDetails();
     });
-    $("#languageSwedish").click(function () {
+    $("#btnCloseMovementInfo").click(function(){
+        $("#movementsInfoSection").hide();
+        $("#searchSection").show();
+    });
+    $("#languageSwedish").click(function () { //When Swedish flag is clicked
       changeLanguage(langSwedish);
     });
-    $("#languageEnglish").click(function () {
+    $("#languageEnglish").click(function () { //When English flag is clicked
       changeLanguage(langEnglish);
     });
-
+    $(".fa-circle-question").click(function () {
+      showMovementDetails();
+    });
   }
 }); //end $(document).ready(function ()
+
+/**
+ * Show information about movements
+ */
+function showMovementDetails() {
+  //Hide search field
+  $("#searchSection").hide();
+
+  //Fill information section dependning on chosen language
+  switch (choosenLanguage) {
+    case langSwedish:
+      $("#h2movementsInfo").html("Småbarnsmotorik");
+      $("#movementsInfo").html(`<p>Det är viktigt för småbarn att öva sin motorik. De motoriska färdigheterna är fjorton till antalet, och på
+        denna webbplats har vi delat in dem i tre kategorier
+        för att lättare kunna hitta lekplatser som utmanar
+        de färdigheter som ditt/dina barn behöver öva på.
+        </p>
+        <ul>
+          <li><strong>På marken</strong></li>
+          <ul>
+            <li>lyfta på huvudet</li>
+            <li>rulla</li>
+            <li>åla</li>
+             <li>krypa</li>
+            <li>stödja</li>
+           </ul>
+           <li><strong>På fötterna</strong></li>
+             <ul>
+              <li>balansera</li>
+              <li>gå</li>
+              <li>springa</li>
+              <li>koordination</li>
+              <li>kasta/fånga</li>
+              <li>korsrörelser</li>
+            </ul>
+            <li><strong>I luften</strong></li>
+            <ul>
+              <li>guna</li>
+              <li>hoppa och klättra</li>
+            </ul>
+          </ul>`);
+          $("#btnCloseMovementInfo").html("Stäng");
+      break;
+    case langEnglish:
+      $("#h2movementsInfo").html("Toddler motor skills");
+      $("#movementsInfo").html(`<p>It's important for toddlers to practice their motor skills The motor skills are fourteen in number, and
+         on this website we have grouped them into three categories to easier be able to find playgrounds that challenge  the skills your toddler/toddlers 
+         need to practice. </p>
+         <ul>
+            <li><strong>On the ground</strong></li>
+            <ul>
+              <li>lift your head</li>
+              <li>rolling</li>
+              <li>belly crawl</li>
+              <li>crawl</li>
+              <li>support</li>
+            </ul>
+            <li><strong>On your feet</strong></li>
+            <ul>
+              <li>balance</li>
+              <li>walk</li>
+              <li>run</li>
+              <li>coordination</li>
+              <li>throw/catch</li>
+              <li>cross movements</li>
+            </ul>
+            <li><strong>In the air</strong></li>
+            <ul>
+              <li>swing</li>
+              <li>hand and climb</li>
+            </ul>
+          </ul>`);
+          $("#btnCloseMovementInfo").html("Close");
+      break;
+  }
+  $("#movementsInfoSection").show();
+}
 
 /**
  * Changes the language of all fixed html elements to the newly selected language
@@ -198,6 +282,9 @@ function resetSearch() {
   }
   $("#resultsSection").hide(); // Hide search results section, not to be shown before a search has been made
   $("#detailsSection").hide(); // Hide playground details, not to be shown before a search hit has been clicked
+  $("#movementsInfoSection").hide(); //Hide movements info, not to be shown before a question mark has been blicked
+
+  $("#searchSection").show(); //Show search section, in case it has been hidden by movementsInfoSection
 }
 
 /**
@@ -221,10 +308,10 @@ function showDetails(searchListItem) {
   }
   htmlText += `<p>${playground.adress} <em>- ${playground.area[choosenLanguage]}</em></p><p>${playground.description[choosenLanguage]}</p>`;
 
-  if(choosenLanguage === langSwedish){
-    htmlText += `Lämpliga rörelseövningar: `; 
-  }else {
-    htmlText+= `Suitable movement excersice: `;
+  if (choosenLanguage === langSwedish) {
+    htmlText += `Lämpliga rörelseövningar: `;
+  } else {
+    htmlText += `Suitable movement excersice: `;
   }
 
   let previousMovement = false;
@@ -250,7 +337,7 @@ function showDetails(searchListItem) {
       previousMovement = true;
     }
   }
-  
+
   $("#playgroundDetails").html(htmlText);
 
   if (playground.geoPosition !== 0) { //If positions exists
@@ -292,20 +379,21 @@ function hideDetails() {
  */
 function createSearchListElement(playground) {
   let newDiv = document.createElement("div");
-  newDiv.innerHTML = `<strong>${playground.name}</strong> ${playground.area[choosenLanguage]}<br>`;
-  if(choosenLanguage === langSwedish){
-    newDiv.innerHTML += `Lämpliga rörelseövningar: ` 
-  }else{
-    newDiv.innerHTML+= `Suitable movement excersice: `;
+  let htmlText = "";
+  htmlText = `<strong>${playground.name}</strong> - ${playground.area[choosenLanguage]}<br>`;
+  if (choosenLanguage === langSwedish) {
+    newDiv.innerHTML += `Lämpliga rörelseövningar: `
+  } else {
+    htmlText += `Suitable movement excersice: `;
   }
 
   let previousMovement = false; //Used to get correct commas and capital letters
 
   if (playground.movements.includes("ground")) {
     if (document.getElementById("chkMovementGround").checked === true) {
-      newDiv.innerHTML += `<mark>${movementInformation[choosenLanguage].ground[0]}</mark>`;
+      htmlText += `<mark>${movementInformation[choosenLanguage].ground[0]}</mark>`;
     } else {
-      newDiv.innerHTML += movementInformation[choosenLanguage].ground[0];
+      htmlText += movementInformation[choosenLanguage].ground[0];
     }
     previousMovement = true;
   }
@@ -313,17 +401,17 @@ function createSearchListElement(playground) {
   if (playground.movements.includes("feet")) {
     if (document.getElementById("chkMovementFeet").checked === true) {
       if (previousMovement === false) {
-        newDiv.innerHTML += `<mark>${movementInformation[choosenLanguage].feet[0]}</mark>`;
+        htmlText += `<mark>${movementInformation[choosenLanguage].feet[0]}</mark>`;
         previousMovement = true;
       } else {
-        newDiv.innerHTML += `, <mark>${movementInformation[choosenLanguage].feet[0].toLowerCase()}</mark>`;
+        htmlText += `, <mark>${movementInformation[choosenLanguage].feet[0].toLowerCase()}</mark>`;
       }
     } else {
       if (previousMovement === false) {
-        newDiv.innerHTML += movementInformation[choosenLanguage].feet[0];
+        htmlText += movementInformation[choosenLanguage].feet[0];
         previousMovement = true;
       } else {
-        newDiv.innerHTML += `, ${movementInformation[choosenLanguage].feet[0].toLowerCase()}`;
+        htmlText += `, ${movementInformation[choosenLanguage].feet[0].toLowerCase()}`;
       }
     }
   }
@@ -331,17 +419,19 @@ function createSearchListElement(playground) {
   if (playground.movements.includes("air")) {
     if (document.getElementById("chkMovementAir").checked === true) {
       if (previousMovement === false) {
-        newDiv.innerHTML += `<mark>${movementInformation[choosenLanguage].air[0]}</mark>`;
+        htmlText += `<mark>${movementInformation[choosenLanguage].air[0]}</mark>`;
       } else {
-        newDiv.innerHTML += `, <mark>${movementInformation[choosenLanguage].air[0].toLowerCase()}</mark>`;
+        htmlText += `, <mark>${movementInformation[choosenLanguage].air[0].toLowerCase()}</mark>`;
       }
     } else {
       if (previousMovement === false) {
-        newDiv.innerHTML += movementInformation[choosenLanguage].air[0];
+        htmlText += movementInformation[choosenLanguage].air[0];
       } else {
-        newDiv.innerHTML += `, ${movementInformation[choosenLanguage].air[0].toLowerCase()}`;
+        htmlText += `, ${movementInformation[choosenLanguage].air[0].toLowerCase()}`;
       }
     }
   }
+  htmlText += `</p>`
+  newDiv.innerHTML = htmlText;
   return newDiv;
 }
