@@ -1,4 +1,4 @@
-/* File containing all information about playgrounds */
+/* File containing all information about playgrounds and information about movement groups in implemented languages*/
 
 //Array for translation of movement groups
 const movementInformation = [
@@ -55,8 +55,9 @@ const playgrounds = [
   },
 ];
 
-// If statement to avoid running the module.exports method 
 // Export needed for testing with JEST but causes error when run on web server
+// If statement to avoid running the module.exports method outside js.node enviroment
+// Code supplied by mentor Spencer Barriball
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
   module.exports = { playgrounds };
 }

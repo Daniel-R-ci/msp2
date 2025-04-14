@@ -1,4 +1,5 @@
 /*** GlOBAL VARIABLES ***/
+
 // playgrounds array also used, initialized in playgrounds.js
 let searchList = []; //Contains a list of playgrounds matching the latest search
 let ljMap = null; //Contains the LeafJet Map
@@ -56,6 +57,7 @@ $(document).ready(function () {
 
 /**
  * Show information about movements
+ * Launched when question mark in search field is clicked
  */
 function showMovementDetails() {
   //Hide search field
@@ -133,11 +135,13 @@ function showMovementDetails() {
 
 /**
  * Changes the language of all fixed html elements to the newly selected language
+ * Launches when flag icon is clicked
  * @param {*} newLanguage, supports langSwedish and langEnglish;
  */
 function changeLanguage(newLanguage) {
   choosenLanguage = parseInt(newLanguage);
 
+  //Update headlines and buttons depending on selected language
   switch (choosenLanguage) {
     case langSwedish:
       $("#h1Title").html("Göteborgs Lekplatser<br>för Småbarn");
@@ -158,6 +162,7 @@ function changeLanguage(newLanguage) {
   }
 
   //Update text for checkbox labels
+  //Information stored in playgrounds.js
   lblMovementGround.innerHTML = movementInformation[choosenLanguage].ground[0] + " " + movementInformation[choosenLanguage].ground[1];
   lblMovementFeet.innerHTML = movementInformation[choosenLanguage].feet[0] + " " + movementInformation[choosenLanguage].feet[1];
   lblMovementAir.innerHTML = movementInformation[choosenLanguage].air[0] + " " + movementInformation[choosenLanguage].air[1];
@@ -176,6 +181,8 @@ function changeLanguage(newLanguage) {
     //Add all city areas stored in areas array to select element
     //Basic code for adding option to select from W3 Schools, adapted to take multiple values from array
     $("#selectCityArea > option").remove(); //Remove all current options from selectCityArea, code adapted from solutions found at Stackoverflow.com
+    
+    // Add the any option in selected language
     let option = document.createElement("option");
     option.value = "any";
     if (choosenLanguage === langSwedish) {
@@ -183,6 +190,8 @@ function changeLanguage(newLanguage) {
     } else if (choosenLanguage === langEnglish) {
       option.text = "Select area of city: Any";
     }
+
+    // Add area options from array
     document.getElementById("selectCityArea").add(option);
     for (let area of areas) {
       option = document.createElement("option");
@@ -196,12 +205,12 @@ function changeLanguage(newLanguage) {
 
 /**
  * Search through playgrounds array and create list of playgrounds matching search criteria
+ * Launches when search button is clicked
  */
 function searchPlaygrounds() {
   $("#resultsSection").show(); //Show results section
 
   searchList = []; //Reset search list
-  //searchList = playgrounds; //Temporary assignment, should be replaced with search function
   for (let playground of playgrounds) {
     let searchMatch = 0; //Starts with 0, counts every search hit
     let clickedBoxes = 0; //Counts the number of boxes clicked
@@ -246,10 +255,13 @@ function searchPlaygrounds() {
 
   //Show search results
   if (searchList.length === 0) { // No matches found
-    let resultHTML = `<em>I'm sorry, no matching playgrounds were found!</em><br>Please try to broaden the search.`;
-    $("#searchResults").html(resultHTML);
-  }
-  else { // Loop through list and create list elements
+    if(choosenLanguage==langSwedish){
+      $("#searchResults").html(`<em>Tyvärr, inga lekplatser som matchade dina val kunde hittas!</em><br>Var vänlig försök igen med andra kriterier.`);  
+    }
+    else{
+    $("#searchResults").html(`<em>I'm sorry, no matching playgrounds were found!</em><br>Please try to broaden the search.`);
+    }
+  } else { // Loop through list and create list elements
     $("#searchResults").html(""); //Empty results div after previous searches
     for (let i = 0; i < searchList.length; i++) { //Index loop used instead of for of to make use of index number
       let newDiv = createSearchListElement(searchList[i]);
@@ -269,12 +281,12 @@ function searchPlaygrounds() {
     if (x.matches) { // If media query matches
       window.scrollTo(0, 450); //Scroll the window to a position to sufficiently see search results
     }
-
   }
 }
 
 /**
  * Reset search form and hide result and details sections
+ * Launches when reset button is clicked, and on language changes
  */
 function resetSearch() {
   document.getElementById("selectCityArea").value = "any"; //Change city area selector to default,
@@ -291,6 +303,7 @@ function resetSearch() {
 
 /**
  * Shows details of a specific playground
+ * Launches when a playground in search list is clicked
  * @param {*} searchListItem as integer
  */
 function showDetails(searchListItem) {
@@ -346,15 +359,15 @@ function showDetails(searchListItem) {
     //Set LeaftJet map to position
     ljMap.setView([playground.geoPosition[0], playground.geoPosition[1]]);
 
-    //If LeafJet Marker already exists, remove it from map
+    // Code for storing markers in layers and global variables found on Stackoverflow.com, modified for desired functionality
+    // If LeafJet Marker already exists, remove it from map
     if (ljMarker !== null) {
       ljMap.removeLayer(ljMarker);
     }
     //Add new marker to map
     ljMarker = new L.Marker([playground.geoPosition[0], playground.geoPosition[1]]);
     ljMap.addLayer(ljMarker);
-    //Credit: Code for storing markers in layers and global variables found on Stackoverflow.com, modified for desired functionality
-
+    
     $("#map").show();
   } else { //Hide map div if no coordinates are entered
     $("#map").hide();
@@ -374,7 +387,7 @@ function hideDetails() {
 }
 
 /**
- * Creates list element out specified playground
+ * Creates list element out specified playground for viewing
  * Broken out of searchPlayground() to simplify overview
  * @param {*} playground 
  * @returns newDiv
