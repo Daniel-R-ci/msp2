@@ -384,7 +384,7 @@ function createSearchListElement(playground) {
   let htmlText = "";
   htmlText = `<strong>${playground.name}</strong> - ${playground.area[choosenLanguage]}<br>`;
   if (choosenLanguage === langSwedish) {
-    newDiv.innerHTML += `Lämpliga rörelseövningar: `
+    newDiv.innerHTML += `Lämpliga rörelseövningar: `;
   } else {
     htmlText += `Suitable movement excersice: `;
   }
@@ -433,7 +433,7 @@ function createSearchListElement(playground) {
       }
     }
   }
-  htmlText += `</p>`
+  htmlText += `</p>`;
   newDiv.innerHTML = htmlText;
   return newDiv;
 }
