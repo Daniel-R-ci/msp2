@@ -150,6 +150,7 @@ function changeLanguage(newLanguage) {
       $("#h2Results").html("Resultat");
       $("#btnCloseDetails").html("Tillbaka till sökresultatet");
       $("html").attr("lang", "sv"); //Code found on Stackoverflow
+      document.title="Lekplatser i Göteborg";document.title="Lekplatser i Göteborg";
       break;
     case langEnglish:
       $("#h1Title").html("Gothenburg Playgrounds<br>for Toddlers");
@@ -158,6 +159,7 @@ function changeLanguage(newLanguage) {
       $("#h2Results").html("Search results");
       $("#btnCloseDetails").html("Back to search result");
       $("html").attr("lang", "en"); //Code found on Stackoverflow
+      document.title="Gothenburg Playgrounds";
       break;
   }
 
