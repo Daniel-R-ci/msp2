@@ -145,6 +145,7 @@ function changeLanguage(newLanguage) {
       $("#btnSearch").html("Sök");
       $("#h2Results").html("Resultat");
       $("#btnCloseDetails").html("Tillbaka till sökresultatet");
+      $("html").attr("lang", "sv"); //Code found on Stackoverflow
       break;
     case langEnglish:
       $("#h1Title").html("Gothenburg Playgrounds<br>for Toddlers");
@@ -152,6 +153,7 @@ function changeLanguage(newLanguage) {
       $("#btnSearch").html("Search");
       $("#h2Results").html("Search results");
       $("#btnCloseDetails").html("Back to search result");
+      $("html").attr("lang", "en"); //Code found on Stackoverflow
       break;
   }
 
