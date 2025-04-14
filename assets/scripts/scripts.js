@@ -242,7 +242,7 @@ function searchPlaygrounds() {
       }
     } else { //If one or more checkboxes are clicked, exclude playgrounds from not selected area
       if (document.getElementById("selectCityArea").value != "any") {
-        if (document.getElementById("selectCityArea").value != playground.area) {
+        if (document.getElementById("selectCityArea").value != playground.area[choosenLanguage]) {
           searchMatch = 0;
         }
       }
