@@ -62,6 +62,7 @@ $(document).ready(function () {
 function showMovementDetails() {
   //Hide search field
   $("#searchSection").hide();
+  $("#resultsSection").hide();
 
   //Fill information section dependning on chosen language
   switch (choosenLanguage) {
@@ -326,9 +327,9 @@ function showDetails(searchListItem) {
   htmlText += `<p>${playground.adress} <em>- ${playground.area[choosenLanguage]}</em></p><p>${playground.description[choosenLanguage]}</p>`;
 
   if (choosenLanguage === langSwedish) {
-    htmlText += `Lämpliga rörelseövningar: `;
+    htmlText += `<p>Lämpliga rörelseövningar: `;
   } else {
-    htmlText += `Suitable movement excersice: `;
+    htmlText += `<p>Suitable movement excersice: `;
   }
 
   let previousMovement = false;
@@ -339,7 +340,7 @@ function showDetails(searchListItem) {
 
   if (playground.movements.includes("feet")) {
     if (previousMovement === true) {
-      htmlText += `${movementInformation[choosenLanguage].feet[0].toLowerCase()} ${movementInformation[choosenLanguage].feet[1]}`;
+      htmlText += `, ${movementInformation[choosenLanguage].feet[0].toLowerCase()} ${movementInformation[choosenLanguage].feet[1]}`;
     } else {
       htmlText += `${movementInformation[choosenLanguage].feet[0]} ${movementInformation[choosenLanguage].feet[1]}`;
       previousMovement = true;
@@ -348,14 +349,14 @@ function showDetails(searchListItem) {
 
   if (playground.movements.includes("air")) {
     if (previousMovement === true) {
-      htmlText += `${movementInformation[choosenLanguage].air[0].toLowerCase()} ${movementInformation[choosenLanguage].air[1]}`;
+      htmlText += `, ${movementInformation[choosenLanguage].air[0].toLowerCase()} ${movementInformation[choosenLanguage].air[1]}`;
     } else {
       htmlText += `${movementInformation[choosenLanguage].air[0]} ${movementInformation[choosenLanguage].air[1]}`;
       previousMovement = true;
     }
   }
 
-  $("#playgroundDetails").html(htmlText);
+  $("#playgroundDetails").html(htmlText+"</p>");
 
   if (playground.geoPosition !== 0) { //If positions exists
     //Set LeaftJet map to position
